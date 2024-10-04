@@ -1,0 +1,174 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #141212; /* Atualize o caminho conforme necessário */
+    background-size: auto; /* Faz com que a imagem cubra toda a área visível */
+    background-position: center; /* Centraliza a imagem */
+    background-repeat: no-repeat; /* Impede a repetição da imagem */
+    border-radius: 5px;
+    
+}
+
+header {
+    background-color: #1C1C1C;
+    color: #363636;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 60px; /* Ajuste conforme necessário */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(235, 233, 233, 0.5);
+}
+
+header h1 {
+    color: #f4c542;
+    margin: 0;
+    position: absolute;
+    left: 50%; /* Move para o meio */
+    transform: translateX(-50%); /* Centraliza */
+}
+.dashboard-container {
+    display: flex;
+    height: calc(100vh - 60px); /* Subtrai a altura do cabeçalho */
+}
+
+.sidebar {
+    background-color: #363636;
+    color: #f4c542;
+    width: 200px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(235, 233, 233, 0.5);
+}
+
+.sidebar h2 {
+    margin-top: 0;
+}
+
+.game-btn {
+    background-color: #f4c542;
+    color: rgb(254, 254, 254);
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+.game-btn:hover {
+    background-color: black;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza verticalmente o conteúdo */
+    position: relative;
+    background-image: url('cassino.webp'); /* Substitua pelo caminho da sua imagem */
+    background-size: cover; /* Ajusta o tamanho da imagem para se adequar ao contêiner */
+    background-position: center; /* Centraliza a imagem */
+    background-repeat: no-repeat; /* Impede a repetição da imagem */
+   
+    
+}
+
+
+.balance-info {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 18px;
+    background-color: #f4c542;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.game-descriptions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinha à esquerda */
+    padding: 20px; /* Espaçamento interno */
+    width: 250px; /* Largura dos blocos */
+}
+
+.game-description {
+   
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Alinha à esquerda */
+        padding: 20px; /* Espaçamento interno */
+        width: 250px; /* Largura dos blocos */
+        background-image: url('images/Robo.png'); /* Caminho para sua imagem de fundo */
+        background-size: cover; /* Faz com que a imagem cubra a área do contêiner */
+        background-position: center; /* Centraliza a imagem */
+        background-repeat: no-repeat; /* Impede a repetição da imagem */
+        border-radius: 5px; /* Arredonda os cantos */
+        box-shadow: 0 0 10px rgba(235, 233, 233, 0.5); /* Sombra para destaque */
+        color: antiquewhite;
+    
+}
+
+.game-description h3 {
+    margin: 0 0 10px; /* Margem abaixo do título */
+}
+
+.game-description p {
+    margin: 0; /* Remove margens para parágrafo */
+}
+
+footer {
+    background-color: #1C1C1C;
+    color: #f4c542;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(235, 233, 233, 0.5);
+}
+
+.logout-btn {
+    position: absolute; /* Para posicionar o botão de sair */
+    right: 10px; /* Distância do lado direito */
+    top: 10px; /* Distância do topo */
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.logout-btn:hover {
+    background-color: #f4c542;
+}
+.profile-btn {
+    position: absolute; /* Para posicionar o botão de perfil */
+    left: 10px; /* Distância do lado esquerdo */
+    top: 10px; /* Distância do topo */
+    background-color: #f4c542;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.profile-btn:hover {
+    background-color: black;
+}

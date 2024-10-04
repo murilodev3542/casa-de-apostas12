@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+	background-image: 'C:\Users\Aluno\Desktop\Salt\images\Robo.png';
+}
+
+header {
+    background-color: #1C1C1C;
+    color: #f4c542;
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header img {
+    margin-left: 10px;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+}
+
+.container {
+    text-align: center;
+}
+
+button {
+    background-color: #f4c542;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    background-color: #1C1C1C;
+    color: #f4c542;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Estilos para as gavetas */
+/* Ajustes para a gaveta de registro */
+.drawer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto; /* Deixe a altura automática */
+    width: 400px; /* Aumente a largura se necessário */
+    max-height: 600px; /* Defina uma altura máxima */
+    overflow-y: auto; /* Permita rolagem se necessário */
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.drawer-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.close-btn {
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.drawer.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+}
+input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%; /* Certifique-se de que os campos ocupem a largura total */
+}
+
+
+button[type="submit"] {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    width: 100%; /* Botões ocupam a largura total */
+    margin-top: 15px; /* Aumente a margem para melhor espaçamento */
+}

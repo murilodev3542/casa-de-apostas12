@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Interface</title>
+    <link rel="stylesheet" href="crash.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .chart-line {
+            stroke: #00FF00;
+            stroke-width: 2;
+            fill: none;
+        }
+        .chart-label {
+            fill: #00FF00;
+            font-size: 24px;
+        }
+        .history-item {
+            min-width: 50px;
+            text-align: center;
+            padding: 5px;
+            margin: 5px;
+            border-radius: 4px;
+            color: #FFFFFF;
+        }
+        .history-item.crashed {
+            background-color: #FF0000;
+        }
+        .history-item.green {
+            background-color: #00FF00;
+        }
+    </style>
+</head>
+<body class="flex h-screen">
+    <div class="w-1/4 p-4">
+        <div class="flex flex-col space-y-4">
+            <!-- Exibe a banca -->
+            <div class="text-xl font-bold">Saldo: R$ <span id="balance">10,00</span></div>
+            <div class="flex space-x-2">
+                <button class="btn-secondary active px-4 py-2 rounded">Normal</button>
+                <button class="btn-secondary px-4 py-2 rounded">Auto</button>
+            </div>
+            <div class="flex flex-col space-y-2">
+                <label for="amount" class="text-sm">Quantidade a apostar</label>
+                <div class="flex space-x-2">
+                    <input type="number" id="amount" class="w-full px-4 py-2 rounded bg-gray-800 text-white" placeholder="R$" min="0">
+                    <button id="halfButton" class="btn-secondary px-4 py-2 rounded">½</button>
+                    <button id="doubleButton" class="btn-secondary px-4 py-2 rounded">2x</button>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <button id="startButton" class="btn-primary w-1/2 px-4 py-2 rounded" disabled>Começar o jogo</button>
+                <button id="withdrawButton" class="btn-secondary w-1/2 px-4 py-2 rounded" disabled>Retirar</button>
+            </div>
+            <div class="flex space-x-2 mt-4">
+                <button id="back-button" class="btn-secondary w-full px-4 py-2 rounded" onclick="window.location.href='dashboard.html'">Voltar</button>
+            </div>            
+        </div>
+    </div>
+    
+    <div class="w-3/4 p-4 overflow-hidden">
+        <div class="chart-container w-full h-96 overflow-hidden relative">
+            <div class="chart w-full h-full relative">
+                <svg id="chartSvg" class="w-full h-full">
+                    <line id="chartLine" x1="0" y1="100%" x2="0" y2="100%" class="chart-line"></line>
+                    <text id="chartLabel" x="50%" y="50%" text-anchor="middle" class="chart-label">1,00X</text>
+                </svg>
+            </div>
+            <!-- Exibe o valor apostado multiplicado -->
+            <div id="betValue" class="absolute top-2 left-2 text-white bg-gray-700 p-2 rounded">
+                Valor multiplicado: R$ <span id="multipliedAmount">0.00</span>
+            </div>
+        </div>
+        <div class="mt-4">
+            <h2 class="text-sm mb-2">ANTERIOR</h2>
+            <div id="historyContainer" class="history-container flex space-x-2 overflow-x-auto">
+                <!-- Aqui aparecerão os resultados anteriores -->
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateBalance(amount) {
+    balance += amount;
+    localStorage.setItem('balance', balance.toFixed(2)); // Armazena o saldo no Local Storage
+    document.getElementById('balance').textContent = balance.toFixed(2);
+}
+let balance;
+// Quando você carregar a página, busque o saldo
+window.onload = function() {
+    const savedBalance = localStorage.getItem('balance');
+    if (savedBalance) {
+        balance = parseFloat(savedBalance);
+        document.getElementById('balance').textContent = balance.toFixed(2);
+    }
+};
+window.onload = function() {
+    const savedBalance = localStorage.getItem('balance');
+    if (savedBalance) {
+        balance = parseFloat(savedBalance);
+        document.getElementById('balance').textContent = balance.toFixed(2);
+    }
+};
+        
+        let gameInterval; // Intervalo do jogo
+        let isGameRunning = false; // Flag para controlar o estado do jogo
+        let isMultiplying = false; // Flag para controlar o estado do multiplicador
+        let hasWithdrawn = false; // Flag para verificar se o jogador já retirou
+        let originalAmount = 0; // Valor original da aposta
+        let currentMultiplier = 1.00; // Multiplicador atual do jogo
+        
+        // Captura os botões
+        const halfButton = document.getElementById('halfButton');
+        const doubleButton = document.getElementById('doubleButton');
+        const amountInput = document.getElementById('amount');
+        const startButton = document.getElementById('startButton');
+        const withdrawButton = document.getElementById('withdrawButton');
+        const historyContainer = document.getElementById('historyContainer');
+        const multipliedAmountEl = document.getElementById('multipliedAmount'); // Elemento para mostrar o valor multiplicado
+        
+        // Função para habilitar ou desabilitar os botões
+        function setButtonsState(isDisabled) {
+            halfButton.disabled = isDisabled;
+            doubleButton.disabled = isDisabled;
+            amountInput.disabled = isDisabled;
+            withdrawButton.disabled = !isDisabled; // Desabilita o botão de retirar enquanto o jogo não está em andamento
+            startButton.disabled = isDisabled; // Atualiza o estado do botão Começar o jogo
+        }
+        
+        // Função para dobrar o valor da aposta
+        doubleButton.addEventListener('click', function() {
+            let currentAmount = parseFloat(amountInput.value) || 0;
+            if (currentAmount * 2 <= balance) {
+                amountInput.value = (currentAmount * 2).toFixed(2);
+            }
+        });
+        
+        // Função para reduzir o valor da aposta pela metade
+        halfButton.addEventListener('click', function() {
+            let currentAmount = parseFloat(amountInput.value) || 0;
+            amountInput.value = (currentAmount / 2).toFixed(2);
+        });
+        
+        // Função para atualizar a banca
+        function updateBalance(amount) {
+            balance += amount;
+            document.getElementById('balance').textContent = balance.toFixed(2);
+        }
+        
+        // Função para adicionar o resultado ao histórico
+        function addHistoryItem(multiplier, crashed) {
+            let historyItem = document.createElement('div');
+            historyItem.classList.add('history-item');
+            if (crashed) {
+                historyItem.classList.add('crashed');
+            } else {
+                historyItem.classList.add('green');
+            }
+            historyItem.textContent = `${multiplier}X`;
+            historyContainer.prepend(historyItem);
+        }
+        
+        // Função para iniciar o jogo
+        startButton.addEventListener('click', function() {
+            let line = document.getElementById('chartLine');
+            let label = document.getElementById('chartLabel');
+            let chartContainer = document.querySelector('.chart-container');
+            let x = 0;
+            let y = 100;
+            currentMultiplier = 1.00;
+            let amount = parseFloat(amountInput.value); // Valor da aposta
+        
+            if (!amount || amount <= 0 || amount > balance) {
+                alert("Insira um valor válido para a aposta.");
+                return;
+            }
+        
+            // Remove a aposta da banca imediatamente ao começar o jogo
+            originalAmount = amount;
+            updateBalance(-originalAmount);
+            isGameRunning = true;
+            isMultiplying = true;
+            hasWithdrawn = false; // Reseta a flag de retirada
+            setButtonsState(true); // Desabilita os botões enquanto o jogo está em andamento
+        
+            // Limite máximo aleatório entre 3x e 20x, mas com alta chance de crash perto de 3x
+            let maxMultiplier = Math.random() * (20 - 3) + 3; // Limite aleatório entre 3 e 20
+            maxMultiplier = parseFloat(maxMultiplier.toFixed(2)); // Limita a 2 casas decimais
+        
+            gameInterval = setInterval(function() {
+                let crashThreshold = Math.random();
+        
+                let crashProbability;
+                if (currentMultiplier < 1.5) {
+                    crashProbability = 0.02; // 2% de chance de crashar abaixo de 1.5x
+                } else if (currentMultiplier < 2) {
+                    crashProbability = 0.05; // 5% de chance de crashar entre 1.5x e 2x
+                } else if (currentMultiplier < 3) {
+                    crashProbability = 0.01; // 1% de chance de crashar entre 2x e 3x
+                } else {
+                    crashProbability = 0.05; // Aumenta a chance de crashar acima de 3x
+                }
+        
+                if (crashThreshold < crashProbability) {
+                    clearInterval(gameInterval);
+                    isGameRunning = false;
+                    isMultiplying = false;
+                    setButtonsState(false); // Habilita os botões após o jogo terminar
+                    label.textContent = "CRASHED!";
+                    addHistoryItem(currentMultiplier.toFixed(2), true); // Adiciona o resultado ao histórico
+                    multipliedAmountEl.textContent = '0.00'; // Reseta o valor multiplicado exibido
+                } else {
+                    // Atualiza a posição e o multiplicador
+                    x += 10; // Ajuste a velocidade da linha
+                    currentMultiplier += 0.01; // Aumenta o multiplicador progressivamente
+                    y -= 1; // Ajuste o valor Y
+        
+                    if (x >= chartContainer.clientWidth) {
+                        clearInterval(gameInterval);
+                        isGameRunning = false;
+                        isMultiplying = false;
+                        setButtonsState(false); // Habilita os botões após o jogo terminar
+                        label.textContent = `${currentMultiplier.toFixed(2)}X`;
+                        addHistoryItem(currentMultiplier.toFixed(2), false); // Adiciona o resultado ao histórico
+                    } else {
+                        // Atualiza a linha do gráfico e o rótulo
+                        line.setAttribute('x2', `${x}`);
+                        line.setAttribute('y2', `${y}%`);
+                        label.textContent = `${currentMultiplier.toFixed(2)}X`;
+        
+                        // Calcula e exibe o valor multiplicado da aposta (se ainda não tiver retirado)
+                        if (isMultiplying) {
+                            let multipliedAmount = (originalAmount * currentMultiplier).toFixed(2);
+                            multipliedAmountEl.textContent = multipliedAmount;
+                        }
+                    }
+                }
+            }, 100);
+        });
+        
+        // Função para retirar os ganhos antes do crash
+        withdrawButton.addEventListener('click', function() {
+            if (isMultiplying && !hasWithdrawn) { // Permite retirar apenas uma vez por rodada
+                let multipliedAmount = originalAmount * currentMultiplier;
+        
+                updateBalance(multipliedAmount); // Atualiza o saldo com o valor multiplicado
+                hasWithdrawn = true; // Define a flag como true para evitar retirada múltipla
+                isMultiplying = false; // Para o multiplicador, mas não a animação do gráfico
+            }
+        });
+        
+        // Habilita o botão "Começar o jogo" se houver valor de aposta
+        amountInput.addEventListener('input', function() {
+            if (amountInput.value) {
+                startButton.disabled = false;
+            } else {
+                startButton.disabled = true;
+            }
+        });
+    </script>    
+    
+</body>
+</html>

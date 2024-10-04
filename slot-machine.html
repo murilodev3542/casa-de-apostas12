@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine</title>
+    <link rel="stylesheet" href="slot-machine.css">
+</head>
+<body>
+    <a href="dashboard.html" id="back-button">Voltar para Página inicial</a> <!-- Botão para voltar -->
+    <h1>Slot Machine</h1>
+    <div class="bank">
+        <h2>Saldo: R$ <span id="balance">0,00</span></h2>
+        <div class="bet-selection">
+            <label for="bet">Aposta:</label>
+            <select id="bet">
+                <option value="10">10 Money</option>
+                <option value="20">20 Money</option>
+                <option value="50">50 Money</option>
+                <option value="100">100 Money</option>
+            </select>
+        </div>
+    </div>
+    <div class="slot-machine">
+        <div class="reel" id="reel1">🍒</div>
+        <div class="reel" id="reel2">🍒</div>
+        <div class="reel" id="reel3">🍒</div>
+    </div>
+    <button id="spin">Spin</button>
+    <script src="slot-machine.js"></script>
+</body>
+</html>

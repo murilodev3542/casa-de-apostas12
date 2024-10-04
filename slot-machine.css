@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #2c2c2c; /* Cor de fundo cinza escuro para toda a tela */
+    color: #f0f0f0; /* Cor do texto em um tom claro para contraste */
+    margin: 0; /* Remove a margem padrão do body */
+    padding: 0; /* Remove o padding padrão do body */
+    position: relative; /* Permite o posicionamento absoluto dos elementos filhos */
+}
+
+#back-button {
+    position: absolute; /* Posiciona o botão de forma absoluta */
+    top: 10px; /* Espaçamento do topo */
+    left: 10px; /* Espaçamento da esquerda */
+    padding: 10px 20px; /* Padding para o botão */
+    background-color: #f4c542; /* Cor de fundo cinza escuro */
+    color: #f0f0f0; /* Cor do texto em tom claro */
+    border: 2px solid #333; /* Borda cinza escuro */
+    border-radius: 5px; /* Bordas arredondadas */
+    text-decoration: none; /* Remove o sublinhado do link */
+    font-size: 18px; /* Tamanho da fonte do botão */
+}
+
+#back-button:hover {
+    background-color: #e0b03b; /* Cor de fundo ao passar o mouse */
+}
+
+.bank {
+    margin-bottom: 30px;
+}
+
+.bank h2 {
+    font-size: 24px;
+    color: #f0f0f0; /* Cor do texto em um tom claro */
+}
+
+.bet-selection {
+    margin-top: 10px;
+}
+
+.bet-selection label {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #f0f0f0; /* Cor do texto em um tom claro */
+}
+
+.slot-machine {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    background-color: #1c1c1c; /* Cor de fundo cinza escuro para a área da máquina de slots */
+    padding: 20px; /* Adiciona padding ao redor da máquina de slots */
+    border-radius: 10px; /* Borda arredondada para um visual mais suave */
+}
+
+.reel {
+    font-size: 150px; /* Aumenta o tamanho da fonte dos símbolos */
+    width: 180px; /* Aumenta a largura dos rolos */
+    height: 180px; /* Aumenta a altura dos rolos */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #333; /* Cor da borda em cinza escuro */
+    margin: 0 15px; /* Aumenta o espaço entre os rolos */
+    color: #f0f0f0; /* Cor do texto dos símbolos em um tom claro */
+}
+
+button {
+    font-size: 24px;
+    padding: 10px 20px;
+    border: 2px solid #333; /* Cor da borda do botão em cinza escuro */
+    background-color: #f4c542; /* Cor de fundo cinza escuro para o botão */
+    color: #f0f0f0; /* Cor do texto do botão em um tom claro */
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #444; /* Cor de fundo cinza mais escuro ao passar o mouse */
+}

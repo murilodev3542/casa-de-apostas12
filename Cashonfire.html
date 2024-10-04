@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash On</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <header>
+        <h1>Bem-vindo ao Cash On</h1>
+        <img src="https://images.emojiterra.com/google/noto-emoji/animated-emoji/1f911.gif" alt="Emoji de Dinheiro" style="width: 30px; vertical-align: middle;">
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Este site requer login para utilizar</h2>
+            <button id="loginBtn" aria-label="Abrir formulário de login">Login</button>
+            <button id="registerBtn" aria-label="Abrir formulário de registro">Registrar</button>
+        </div>
+    </main>
+
+    <!-- Drawer de Login -->
+    <div id="drawer-login" class="drawer">
+        <div class="drawer-content">
+            <span class="close-btn" id="closeLogin" aria-label="Fechar formulário de login">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm" method="POST" action="login.php">
+                <fieldset>
+                    <legend>Insira suas credenciais</legend>
+                    <label for="loginUsername">Nome de Usuário:</label>
+                    <input type="text" id="loginUsername" name="username" required>
+                    <label for="loginPassword">Senha:</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                    <button type="submit">Entrar</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <!-- Drawer de Registro -->
+    <div id="drawer-register" class="drawer">
+        <div class="drawer-content">
+            <span class="close-btn" id="closeRegister" aria-label="Fechar formulário de registro">&times;</span>
+            <h2>Registrar</h2>
+            <form id="registerForm" method="POST" action="register.php">
+                <fieldset>
+                    <legend>Preencha seus dados</legend>
+                    <label for="registerUsername">Nome de Usuário:</label>
+                    <input type="text" id="registerUsername" name="username" required>
+
+                    <label for="registerCpf">CPF:</label>
+                    <input type="text" id="registerCpf" name="cpf" required pattern="\d{11}" title="O CPF deve conter 11 dígitos.">
+
+                    <label for="registerAge">Idade:</label>
+                    <input type="number" id="registerAge" name="age" required min="18" max="120">
+
+                    <label for="registerPassword">Senha:</label>
+                    <input type="password" id="registerPassword" name="password" required>
+
+                    <label for="registerConfirmPassword">Repetir Senha:</label>
+                    <input type="password" id="registerConfirmPassword" name="confirmPassword" required>
+
+                    <button id="registerForm" type="submit">Registrar</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Cash On. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const loginBtn = document.getElementById("loginBtn");
+            const registerBtn = document.getElementById("registerBtn");
+            const closeLogin = document.getElementById("closeLogin");
+            const closeRegister = document.getElementById("closeRegister");
+            const drawerLogin = document.getElementById("drawer-login");
+            const drawerRegister = document.getElementById("drawer-register");
+            const loginForm = document.getElementById("loginForm");
+            const registerForm = document.getElementById("registerForm");
+
+            // Abre o drawer de Login
+            loginBtn.addEventListener("click", function() {
+                drawerLogin.classList.add("active");
+            });
+
+            // Abre o drawer de Registro
+            registerBtn.addEventListener("click", function() {
+                drawerRegister.classList.add("active");
+            });
+
+            // Fecha o drawer de Login
+            closeLogin.addEventListener("click", function() {
+                drawerLogin.classList.remove("active");
+            });
+
+            // Fecha o drawer de Registro
+            closeRegister.addEventListener("click", function() {
+                drawerRegister.classList.remove("active");
+            });
+
+            // Fecha o drawer ao clicar fora dele
+            window.addEventListener("click", function(event) {
+                if (event.target === drawerLogin) {
+                    drawerLogin.classList.remove("active");
+                }
+                if (event.target === drawerRegister) {
+                    drawerRegister.classList.remove("active");
+                }
+            });
+
+            // Função para processar o formulário de login
+            loginForm.addEventListener("submit", async function(e) {
+                e.preventDefault(); // Previne o envio padrão do formulário
+
+                const formData = new FormData(this);
+
+                try {
+                    const response = await fetch('login.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await response.text();
+
+                    // Exibe a resposta do servidor
+                    alert(result);
+
+                    // Sucesso - redirecionar para dashboard
+                    if (result.includes("Login bem-sucedido")) {
+                        window.location.href = "dashboard.html";
+                    }
+                } catch (error) {
+                    console.error("Erro ao tentar fazer login:", error);
+                }
+            });
+
+            // Função para processar o formulário de registro
+            registerForm.addEventListener("submit", async function(e) { e.preventDefault(); // Previne o envio padrão do formulário
+
+                const formData = new FormData(this);
+
+                try {
+                    const response = await fetch('register.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await response.text();
+                    alert(result); // Exibe a resposta do servidor
+                } catch (error) {
+                    console.error("Erro ao tentar registrar:", error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

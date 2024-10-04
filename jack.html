@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack</title>
+    <link rel="stylesheet" href="jack.css">
+</head>
+<body>
+    <a href="dashboard.html" id="back-button">Voltar para Página inicial</a> <!-- Botão para voltar -->
+    <div class="game-container">
+        <h1>Blackjack</h1>
+        <div class="status">
+            <p id="status">Clique em "Distribuir" para começar o jogo.</p>
+        </div>
+        <div class="bank">
+            <p>Saldo: R$<span id="balance">0,00</span></p>
+            <input type="number" id="bet-amount" placeholder="Valor da aposta" min="1" step="1">
+        </div>
+        <div class="buttons">
+            <button id="deal-button">Distribuir</button>
+            <button id="hit-button" disabled>Comprar</button>
+            <button id="stand-button" disabled>Parar</button>
+        </div>
+        <div class="hands">
+            <div class="player-hand">
+                <h2>Suas Cartas:</h2>
+                <div id="player-cards" class="cards"></div>
+                <p id="player-score">Pontuação: 0</p>
+            </div>
+            <div class="dealer-hand">
+                <h2>Cartas do Dealer:</h2>
+                <div id="dealer-cards" class="cards"></div>
+                <p id="dealer-score">Pontuação: 0</p>
+            </div>
+        </div>
+    </div>
+    <script src="jack.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Minas</title>
+    <link rel="stylesheet" href="mines.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Div para exibir o multiplicador -->
+    <div id="multiplierDisplay">Multiplicador: x1.0</div>
+
+    <!-- Div para exibir o saldo -->
+    <div id="balanceDisplay">Saldo: R$0,00</div>
+
+    <!-- Input para o valor da aposta -->
+    <div>
+        <label for="betAmount">Valor da Aposta: </label>
+        <input type="number" id="betAmount" value="100" min="1" max="1000">
+    </div>
+
+    <!-- Seleção do número de minas -->
+    <div>
+        <label for="mineCountSelect">Selecione o número de minas: </label>
+        <input type="number" id="mineCountSelect" value="5" min="1" max="20">
+    </div>
+
+    <!-- Botão para iniciar o jogo -->
+    <button id="startGameButton">Iniciar Jogo</button>
+
+    <!-- Campo de jogo -->
+    <div id="game"></div>
+
+    <!-- Botões -->
+    <button id="cashoutButton" style="display: none;">Retirar dinheiro</button>
+    <button id="restartButton" style="display: none;">Jogar Novamente</button>
+
+    <!-- Botão para voltar para a dashboard -->
+    <button id="back-button">Voltar para Página Inicial</button>
+
+    <script src="mines.js"></script>
+</body>
+</html>

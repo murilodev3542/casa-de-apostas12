@@ -1,0 +1,82 @@
+/* Estilos Gerais */
+body {
+    background-color: #0f172a;
+    color: #ffffff;
+}
+
+/* Botões */
+.btn-primary {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #dc2626; /* Efeito de hover */
+}
+
+.btn-secondary {
+    background-color: #1e293b;
+    color: #ffffff;
+}
+
+.btn-secondary.active {
+    background-color: #0f172a;
+}
+
+.btn-secondary:hover {
+    background-color: #334155; /* Efeito de hover */
+}
+
+/* Gráficos */
+.chart {
+    background-color: #1e293b;
+}
+
+.chart-line {
+    stroke: #ef4444;
+    stroke-width: 2;
+}
+
+.chart-label {
+    fill: #ffffff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Histórico */
+.history-item {
+    background-color: #1e293b;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+}
+
+.history-item.green {
+    background-color: #10b981; /* Item histórico bem-sucedido */
+}
+
+.history-item.crashed {
+    background-color: #ef4444; /* Item histórico com falha */
+}
+
+/* Contêiner do Gráfico */
+.chart-container {
+    position: relative;
+    overflow: hidden;
+    height: 24rem;
+}
+
+/* Botão de Voltar */
+#back-button {
+    background-color: #f4c542;
+    color: #f0f0f0;
+    border: 2px solid #333;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background-color 0.3s ease; /* Adiciona transição suave */
+}
+
+#back-button:hover {
+    background-color: #e0b03b; /* Efeito de hover */
+}
