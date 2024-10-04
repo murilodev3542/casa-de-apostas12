@@ -1,38 +1,65 @@
+<?php
+session_start();
 
-<!DOCTYPE html>
-<html lang="pt-BR">
+// Configurações do banco de dados
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$dbname = 'bd_aula';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link para o seu CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Link para o Bootstrap -->
-</head>
+// Criação da conexão
+$conn = new mysqli($host, $user, $password, $dbname);
 
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center">Login de Usuário</h1>
-        <form method="POST" action="logar.php" class="mt-4">
-            <div class="form-group">
-                <label for="cpf">CPF:</label>
-                <input type="text" class="form-control" name="cpf" id="cpf" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Senha:</label>
-                <input type="password" class="form-control" name="password" id="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
-        </form>
-    </div>
+// Verificação de erro na conexão
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
+}
 
-    <footer class="text-center mt-5">
-        <p>&copy; 2024 Cash On. Todos os direitos reservados.</p>
-    </footer>
+// Define o charset para evitar problemas com caracteres especiais
+$conn->set_charset("utf8");
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $cpf = $_POST['cpf'];
+    $password = $_POST['password'];
 
-</html>
+    // Validação dos dados
+    if (empty($cpf) || empty($password)) {
+        echo "Todos os campos são obrigatórios.";
+        exit;
+    }
+
+    // Prepare e execute a consulta
+    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE cpf = ? LIMIT 1");
+
+    // Verifique se a preparação da declaração falhou
+    if (!$stmt) {
+        die("Erro na preparação da consulta: " . $conn->error);
+    }
+
+    $stmt->bind_param("s", $cpf);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+
+        // Verifique a senha
+        if (password_verify($password, $user['password'])) {
+            // Login bem-sucedido
+            $_SESSION['user_id'] = $user['id']; // Armazene o ID do usuário na sessão
+            echo "Login realizado com sucesso!";
+            // Redirecionar para a página de dashboard
+            header('Location: dashboard.html'); // Altere para o seu arquivo de dashboard
+            exit();
+        } else {
+            echo "Senha incorreta.";
+        }
+    } else {
+        echo "Usuário não encontrado.";
+    }
+    $stmt->close();
+}
+
+// Fechar a conexão
+$conn->close();
+?>

@@ -1,4 +1,5 @@
-let balance;
+let balance; // Inicialize o saldo como zero
+
 function updateBalance(amount) {
     balance += amount;
     localStorage.setItem('balance', balance.toFixed(2)); // Armazena o saldo no Local Storage
@@ -11,13 +12,8 @@ window.onload = function() {
     if (savedBalance) {
         balance = parseFloat(savedBalance);
         document.getElementById('balance').textContent = balance.toFixed(2);
-    }
-};
-window.onload = function() {
-    const savedBalance = localStorage.getItem('balance');
-    if (savedBalance) {
-        balance = parseFloat(savedBalance);
-        document.getElementById('balance').textContent = balance.toFixed(2);
+    } else {
+        balance = 0; // Inicia o saldo como 0 se não houver saldo salvo
     }
 };
 
@@ -28,23 +24,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameMaquina = document.getElementById('gameMaquina');
     const gameRoleta = document.getElementById('gameRoleta');
     const gameMines = document.getElementById('gameMines');
-    const userBalance = document.getElementById('userBalance');
-    const profileButton = document.getElementById('profileBtn')
+    const profileButton = document.getElementById('profileBtn');
 
-    // Atualize o saldo do usuário, se necessário
-    // userBalance.textContent = obterSaldoDoUsuario();
-    
+    // Redireciona para a página index.php ao clicar no botão de logout
     logoutBtn.addEventListener('click', () => {
-        window.location.href = 'Cashonfire.html'; // Redirecione para a página de login
+        window.location.href = 'index.php'; // Redireciona para a página de login
     });
+    
+    // Adiciona os eventos de clique para redirecionar para as páginas dos jogos
     gameMines.addEventListener('click', () => {
-        window.location.href = 'mines.html'; // Substitua pela URL real do jogo Crash
+        window.location.href = 'mines.html';
     });
     gameMaquina.addEventListener('click', () => {
-        window.location.href = 'slot-machine.html'; // Substitua pela URL real do jogo Double
+        window.location.href = 'slot-machine.html';
     });
     gameJack.addEventListener('click', () => {
-        window.location.href = 'jack.html'; // Substitua pela URL real do jogo Maquina Casanique
+        window.location.href = 'jack.html';
     });
     gameCrash.addEventListener('click', () => {
         window.location.href = 'crash.html';

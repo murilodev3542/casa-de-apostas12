@@ -12,6 +12,11 @@ $celular = $_POST['celular'];
 $age = $_POST['age'];
 $password = $_POST['password'];
 
+// Verifica se os campos estão preenchidos
+if (empty($username) || empty($cpf) || empty($celular) || empty($age) || empty($password)) {
+    die("Por favor, preencha todos os campos.");
+}
+
 // Verifica se o CPF já está cadastrado
 $sql = "SELECT * FROM usuarios WHERE cpf = ?";
 $stmt = $conn->prepare($sql);
@@ -24,16 +29,15 @@ if ($result->num_rows > 0) {
 }
 
 // Criptografa a senha
-$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-// Prepara a consulta para inserir o novo usuário
+// Prepara a inserção no banco de dados
 $sql = "INSERT INTO usuarios (username, cpf, celular, age, password) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssis", $username, $cpf, $celular, $age, $hashedPassword);
+$stmt->bind_param("sssis", $username, $cpf, $celular, $age, $hashed_password);
 
-// Executa a consulta
 if ($stmt->execute()) {
-    echo "Cadastro realizado com sucesso.";
+    echo "Cadastro realizado com sucesso!";
 } else {
     echo "Erro ao cadastrar: " . $stmt->error;
 }
